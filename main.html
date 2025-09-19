@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>전북대학교 수강신청시스템 (연습)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="nav">
+    <div class="logo">전북대학교 수강신청시스템</div>
+    <a href="loding.html" id="sugangLink">정규학기수강신청</a>
+    <a href="#">계절학기수강신청</a>
+    <a href="#">장바구니수강신청</a>
+    <a href="#">특별학기수강신청</a>
+    <a href="index.html" class="logout">Logout</a>
+  </div>
+
+  <div class="container">
+    <div id="clock-container">
+      <div id="clock">현재 시간: 08:54:00</div>
+      <button id="jumpBtn">⏩ 8시59분으로 이동</button>
+      <button id="jumpBtn9">🕘 9시로 이동</button>
+    </div>
+
+    <h2>2025학년도 2학기 수강신청 일정 안내</h2>
+    <table>
+      <tr><th>구분</th><th>대상</th><th>기간</th></tr>
+      <tr>
+        <td rowspan="2">장바구니(예비)</td>
+        <td>학부, 일반대학원, 법전원</td>
+        <td>2025. 7.23 (수) 10:00 ~ 7.25 (금) 18:00</td>
+      </tr>
+      <tr>
+        <td>학부 2~4학년</td>
+        <td>2025. 7.31 (목) 09:00 ~ 8.1 (금) 18:00</td>
+      </tr>
+      <tr>
+        <td>정식</td>
+        <td>학부 1학년</td>
+        <td>2025. 8.7 (목) 09:00 ~ 18:00</td>
+      </tr>
+    </table>
+  </div>
+
+  <footer>
+    <p>© JBNU 수강신청시스템 (연습)</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

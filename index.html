@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>전북대학교 수강신청시스템 (연습)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- 상단 파란 헤더 -->
+  <div class="nav">
+    <div class="logo">전북대학교 수강신청시스템</div>
+  </div>
+
+  <!-- 팝업 -->
+  <div id="noticePopup" class="popup">
+    <div class="popup-content">
+      <p>오전 9시에 수강 신청이 시작됩니다.<br>주의하세요!</p>
+      <button id="popupCloseBtn">확인</button>
+    </div>
+  </div>
+
+  <!-- 본문 -->
+  <div class="main" style="display:flex; gap:30px; justify-content:center; margin-top:50px;">
+    <!-- 로그인 -->
+    <section class="login-box">
+      <h2 class="login-title">로그인</h2>
+      <form id="loginForm">
+        <div class="input-group">
+          <span class="icon">학번</span>
+          <input type="text" id="studentId" placeholder="학번" required />
+        </div>
+        <div class="input-group">
+          <span class="icon">비밀번호</span>
+          <input type="password" id="password" placeholder="비밀번호" required />
+        </div>
+        <button type="submit" class="login-btn">LOGIN</button>
+      </form>
+    </section>
+
+    <!-- 알림 -->
+    <section class="notice-box">
+      <h2>알림</h2>
+      <ul>
+        <li><span class="red">수강신청 안내 및 일정을</span> 반드시 확인하세요.</li>
+        <li><span class="blue">다양한 브라우저에서 신청 가능</span>하나 설정에 따라 차이가 있을 수 있습니다.</li>
+        <li><b>이 사이트는 연습용입니다.</b></li>
+      </ul>
+    </section>
+  </div>
+
+  <!-- 푸터 -->
+  <footer>
+    <p>© JBNU 수강신청시스템 (연습)</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

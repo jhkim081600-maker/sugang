@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>로딩 중...</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: rgba(0,0,0,0.5);
+    }
+    .loading-box {
+      background: #fff;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      text-align: center;
+      width: 500px;
+      max-width: 90%;
+    }
+    .loading-box img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="loading-box">
+    <img src="loading_wait.png" alt="로딩 화면" />
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const randomDelay = Math.random() * 4000 + 1000;
+      setTimeout(() => {
+        window.location.href = "sugang.html";
+      }, randomDelay);
+    });
+  </script>
+</body>
+</html>
