@@ -3,17 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>전북대학교 수강신청시스템</title>
+  <link rel="stylesheet" href="styles.css" />
   <style>
     body { margin:0; font-family: Arial,"Noto Sans KR",sans-serif; background:#f7f9fc; height:100vh; display:flex; flex-direction:column; }
-    /* 상단 바 */
-    .topbar {
-      background:#0d3b8a; display:flex; align-items:center; padding:12px 20px; color:#fff; font-weight:bold;
-    }
-    .topbar span, .topbar button { margin-right:30px; font-size:16px; color:#fff; }
-    .topbar button {
-      background:#fff; color:#0d3b8a; border:none; padding:6px 14px; border-radius:6px;
-      font-weight:900; cursor:pointer;
-    }
     /* 메인 레이아웃 */
     .main { flex:1; display:grid; grid-template-columns:2fr 1fr; gap:10px; padding:10px; }
     .panel { background:#fff; border:1px solid #ddd; border-radius:8px; display:flex; flex-direction:column; }
@@ -44,12 +36,14 @@
 <body>
   <!-- 메인 -->
   <div id="mainPage">
-    <div class="topbar">
-      <span>전북대학교</span>
-      <button>정규학기수강신청</button>
-      <span>계절학기수강신청</span>
-      <span>특별학기수강신청</span>
-    </div>
+  <div class="nav">
+    <div class="logo">전북대학교 수강신청시스템</div>
+    <a href="loding.html" id="sugangLink">정규학기수강신청</a>
+    <a href="#">계절학기수강신청</a>
+    <a href="#">장바구니수강신청</a>
+    <a href="#">특별학기수강신청</a>
+    <a href="index.html" class="logout">Logout</a>
+  </div>
     <div class="main">
       <!-- 좌측: 검색 + 개설과목 -->
       <div class="panel">
