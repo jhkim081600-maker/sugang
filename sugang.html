@@ -1,94 +1,171 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <title>정규학기 수강신청</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <title>전북대학교 수강신청시스템</title>
   <style>
-    .container { display: flex; gap: 20px; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
-    .left, .right { flex: 1; }
-    table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; font-size: 0.9rem; }
-    th { background: #f2f2f2; }
-    button { padding: 5px 10px; cursor: pointer; }
-
-    /* 로딩 팝업 */
-    #loadingPopup {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.5);
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
+    body { margin:0; font-family: Arial,"Noto Sans KR",sans-serif; background:#f7f9fc; height:100vh; display:flex; flex-direction:column; }
+    /* 상단 바 */
+    .topbar {
+      background:#0d3b8a; display:flex; align-items:center; padding:12px 20px; color:#fff; font-weight:bold;
     }
-    #loadingPopup .loading-box {
-      background: #fff;
-      padding: 10px;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-      text-align: center;
-      width: 500px;
-      max-width: 90%;
+    .topbar span, .topbar button { margin-right:30px; font-size:16px; color:#fff; }
+    .topbar button {
+      background:#fff; color:#0d3b8a; border:none; padding:6px 14px; border-radius:6px;
+      font-weight:900; cursor:pointer;
     }
-    #loadingPopup .loading-box img {
-      width: 100%;
-      height: auto;
-      object-fit: contain;
-      border-radius: 6px;
+    /* 메인 레이아웃 */
+    .main { flex:1; display:grid; grid-template-columns:2fr 1fr; gap:10px; padding:10px; }
+    .panel { background:#fff; border:1px solid #ddd; border-radius:8px; display:flex; flex-direction:column; }
+    .panel h3 { margin:0; padding:8px; font-size:14px; font-weight:bold; background:#eef4ff; border-bottom:1px solid #ddd; color:#0d3b8a; }
+    .panel .section { padding:10px; border-bottom:1px solid #eee; }
+    .credits { font-weight:bold; color:red; margin-bottom:10px; }
+    .body { flex:1; overflow:auto; padding:10px; }
+    /* 검색창 */
+    .searchbar { padding:10px; text-align:center; }
+    .searchbar input {
+      width:70%; height:36px; font-size:15px; padding:0 10px;
+      border:2px solid #0d3b8a; border-radius:8px;
     }
+    .searchbar button {
+      height:40px; padding:0 16px; font-size:15px; margin-left:6px;
+      border:none; background:#0d3b8a; color:#fff; border-radius:8px; cursor:pointer;
+    }
+    /* 리스트/버튼 */
+    .row { display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid #eee; }
+    .row:nth-child(odd){ background:#fafafa; }
+    .btn { background:#2d6fc4; border:none; color:#fff; padding:2px 6px; border-radius:4px; cursor:pointer; }
+    /* 시간표 */
+    table { width:100%; border-collapse:collapse; font-size:12px; }
+    th,td { border:1px solid #ddd; text-align:center; padding:4px; height:28px; }
+    th { background:#f1f5ff; color:#0d3b8a; }
   </style>
 </head>
 <body>
-  <div class="nav">
-    <div class="logo">전북대학교 수강신청시스템</div>
-    <a href="main.html">정규학기수강신청</a>
-    <a href="#">계절학기수강신청</a>
-    <a href="#">장바구니수강신청</a>
-    <a href="#">특별학기수강신청</a>
-    <a href="index.html" class="logout">Logout</a>
-  </div>
-
-  <div class="container">
-    <div class="left">
-      <h2>정규학기 수강신청</h2>
-      <table id="courseTable">
-        <tr>
-          <th>신청</th><th>교과목코드</th><th>과목명</th><th>담당교수</th><th>학점</th><th>정원</th><th>시간</th>
-        </tr>
-        <tr><td><button class="apply-btn">신청</button></td><td>CS101</td><td>컴퓨터입문</td><td>김교수</td><td>3</td><td>50</td><td>월1-A</td></tr>
-        <tr><td><button class="apply-btn">신청</button></td><td>ME201</td><td>역학기초</td><td>이교수</td><td>3</td><td>40</td><td>화2-B</td></tr>
-        <tr><td><button class="apply-btn">신청</button></td><td>EE301</td><td>회로이론</td><td>박교수</td><td>3</td><td>45</td><td>수3-A</td></tr>
-        <tr><td><button class="apply-btn">신청</button></td><td>MA102</td><td>공업수학</td><td>최교수</td><td>3</td><td>60</td><td>목4-B</td></tr>
-        <tr><td><button class="apply-btn">신청</button></td><td>PH110</td><td>일반물리학</td><td>정교수</td><td>3</td><td>70</td><td>금5-A</td></tr>
-        <tr><td><button class="apply-btn">신청</button></td><td>CH120</td><td>일반화학</td><td>한교수</td><td>3</td><td>65</td><td>화6-B</td></tr>
-        <tr><td><button class="apply-btn">신청</button></td><td>EN150</td><td>공학영어</td><td>오교수</td><td>2</td><td>80</td><td>목7-A</td></tr>
-      </table>
+  <!-- 메인 -->
+  <div id="mainPage">
+    <div class="topbar">
+      <span>전북대학교</span>
+      <button>정규학기수강신청</button>
+      <span>계절학기수강신청</span>
+      <span>특별학기수강신청</span>
     </div>
-
-    <div class="right">
-      <h2>수강신청내역표</h2>
-      <table id="myCourses">
-        <tr><th>교과목코드</th><th>과목명</th><th>교수</th><th>학점</th><th>시간</th><th>관리</th></tr>
-      </table>
-
-      <h2>시간표</h2>
-      <table id="timetable">
-        <tr><th>교시</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th></tr>
-        <tr><td>1-A (09:00~09:30)</td><td></td><td></td><td></td><td></td><td></td></tr>
-        <tr><td>1-B (09:30~10:00)</td><td></td><td></td><td></td><td></td><td></td></tr>
-        <!-- ... 나머지 교시 동일 (생략) -->
-      </table>
+    <div class="main">
+      <!-- 좌측: 검색 + 개설과목 -->
+      <div class="panel">
+        <h3>과목 검색</h3>
+        <div class="searchbar">
+          <input type="text" id="searchInput" placeholder="과목명을 입력하세요">
+          <button id="searchBtn">검색</button>
+        </div>
+        <h3>개설 교과목</h3>
+        <div id="courseList" class="body"></div>
+      </div>
+      <!-- 우측: 신청내역 + 시간표 -->
+      <div class="panel">
+        <h3>수강신청내역</h3>
+        <div class="section">
+          <div class="credits">잔여 학점: <span id="credit">24</span></div>
+        </div>
+        <div id="appliedList" class="body" style="max-height:200px;"></div>
+        <h3>강의시간표</h3>
+        <div style="flex:none; padding:10px; overflow:auto; max-height:400px;">
+          <table>
+            <thead>
+              <tr><th>시간</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th></tr>
+            </thead>
+            <tbody id="ttBody"></tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- 로딩 팝업 -->
-  <div id="loadingPopup">
-    <div class="loading-box">
-      <img src="loading_wait.png" alt="로딩 화면" />
-    </div>
-  </div>
+  <script>
+    // ====== 공대 과목 데이터 (예시, 실제로는 353개 넣으시면 됨) ======
+    const ALL_COURSES = ["3D설계기법및실습", "6시그마", "AI-기계융합제어", "AIoT시계열분석", "AI로봇공학", "ASME Code이해와적용", "C++프로그래밍", "CAD응용", "CAD응용및실습", "GIS공간분석기초", "ICT융합공학", "IT응용공학", "JAVA프로그래밍 2", "Python 프로그래밍 2", "RF응용시스템", "SCM", "X선결정학", "객체지향프로그래밍", "건설안전및품질관리", "건축구조역학 2", "건축및환경설계의이해", "건축설계스튜디오 3", "건축설비 1", "건축재료실험", "건축재료학", "건축전산구조설계 2", "건축환경공학 2", "건축환경심리", "게임및혼합현실", "결정구조학", "경영과학 1", "계면반응공학", "고급웹프로그래밍", "고분자가공실습 2", "고분자공학개론 2", "Polymer & Nano Structure Analysis 2", "고분자물리학", "고분자물리화학 2", "고분자분석화학실험 2", "고분자생명과학 2", "고분자전자광학실습 2", "고분자화학", "Polymer Chemistry 2", "고전압공학", "고체물리학", "고체역학", "고체역학 1", "고체역학 2및연습", "공업교재연구및지도법", "공업수학", "공업역학", "공정제어", "공학회계", "광전자재료", "광전자학", "교량설계", "교통공학개론", "교통공학실습", "구조동역학및실험", "구조역학 1", "금속강도학", "금속공학실험 2", "금속공학실험 4", "금속물리화학", "금속상변태", "금속열처리공학", "금속재료학", "기계공작법", "기계공작법 1및실습", "기계생물학개론", "기계설계", "기계시스템공학실험 2", "기계시스템요소설계", "기계요소설계", "기계진동학", "기계학습", "기구학", "기기분석", "기능성섬유", "기초회로실험", "나노물리학 2", "나노박막공정", "나노융합기술", "단지설계", "데이터마이닝", "데이터베이스", "데이터분석과 R", "데이터사이언스", "데이터통신", "도로·교통공학", "도시경관학", "도시계획사", "도시계획실습", "도시공간빅데이터분석", "도시관계법규", "도시부동산학", "동역학", "드론측량굴착공학", "디지털건축표현 2", "디지털공학", "디지털비전모션설계", "디지털신호처리", "디지털지적측량학", "디지털통신시스템", "딥러닝", "로봇공학", "로봇비전", "리눅스시스템", "리눅스프로그래밍", "마이크로프로세서", "멀티미디어시스템", "멀티미디어콘텐츠제작", "메카트로닉스및실험", "모바일앱프로그래밍", "무선통신개론", "물리야금학 2", "물리화학", "물리화학 2", "미래형모빌리티", "미세기계가공및실습", "바이오기기품질시스템", "바이오메디컬종합설계 2", "바이오센서", "바이오이미징", "바이오재료", "반도체공정학", "반도체디스플레이공학", "반도체소자", "반도체실험실습", "반도체화학공학", "반응공학 1", "방사선빔기기이용공학", "방사선상호작용", "보건물리", "빅데이터분석", "산업수요맞춤형현장실습프로젝트", "산학실전캡스톤 1", "산학실전캡스톤 3", "산학협업소프트웨어프로젝트 2", "상하수도공학", "생명정보학", "생물분리공정", "생물화학공학", "생산공학및실습", "생산관리사례연구", "생산자동화", "생체계측및실험", "생체계측및실험 2", "생체공학세미나", "생체역학", "Biomechanics", "생체유체역학", "선형대수학", "설계소프트웨어실습", "섬유재료", "세라믹공정", "센서계측공학", "센서공학", "소스코드분석", "소음공학", "소프트웨어공학", "소프트웨어공학개론 2", "소프트웨어도메인모델링", "소프트웨어보안", "소프트웨어시스템분석및설계", "소프트웨어아키텍처설계", "소프트웨어테스팅", "수리학 1", "수리학연습및실험", "수자원데이터분석및활용", "수질공학실험", "수질단위공정", "수치해법", "수치해석", "수치해석법", "스마트모빌리티공학", "시스템건전성관리", "시스템및메모리반도체", "시스템보안", "시추공학", "신재생에너지", "신재생에너지개론", "신재생에너지실험", "신호및시스템", "실험계획법", "아날로그디지털통신 1", "알고리즘", "암석물성계측실험", "암호론", "압축성유체역학", "양자공학수학 2", "양자시스템공학기초실험 2", "양자재료과학", "에너지기술경제학", "에너지변환공학", "에너지소재재활용공학", "에너지양론설계", "에너지유기소재", "에너지융합개론", "에너지응용기술 2", "열및물질전달", "열역학", "열역학 1", "열역학 2", "열전달", "용접시스템공학", "원자력관계법령", "원자로안전공학", "원자로열수력학 2", "웹서비스설계", "Web Service Design", "유/무기기기분석", "유기재료화학", "유기화학 2", "유연스마트재료", "유체역학", "유체역학 1", "유체역학 2", "융복합전공포트폴리오구축", "응용기기분석", "응용미생물학", "응용유체역학", "응용측량학", "의료기기제어장치설계및실습 2", "의료기기학 2", "의료기기회로설계및실습 2", "의료영상", "의용고분자실습 2", "이차전지소재실험", "인공지능", "인공지능과기후변화", "인공지능물리탐사", "인공지능전산재료과학", "임베디드시스템", "임상데이터분석및처리", "임상의학개론", "자동제어", "자동차ICT융합사례연구", "자동차기관구조", "자료구조", "자성정보재료", "자원리싸이클링실험", "자원에너지경제학원론", "자원처리실험", "자율주행센서공학", "자율주행차공학", "재료과학 2", "재료상변태", "재료수치해석", "재료열역학", "Renewable Energy in Power Systems", "전공진로설계", "전기공학종합설계", "Electric Machinery 2", "전기기기실험", "전기자기학 2", "전기전자공학개론", "전기전자기초실험", "전기화학개론", "전기회로기초설계", "전력시스템공학", "Power System Operation and Control", "전력전자공학", "전사적자원관리", "전산구조모형및해석", "전산구조해석및설계", "전산지구물리", "전자공학", "전자공학종합설계 2", "전자기학 2", "전자시스템설계", "전자회로", "전자회로 1", "전자회로이론및실험", "정밀가공", "정밀가공학", "정보검색", "제어계측공학", "제어공학 2", "제어시스템설계", "졸업프로젝트실험 2", "종합설계", "지구환경공학", "차량시스템최적설계", "차량용소프트웨어언어", "창의적공학설계", "창의적공학설계입문", "창의적공학설계탐구", "창의적종합설계", "철골구조학 1", "철근콘크리트공학 1", "첨단소재공학", "첨단의료기기학개론", "초고주파공학", "초급프로젝트", "촉매화학공학", "컴파일러구성론", "컴퓨터구조", "Computer Architecture", "컴퓨터그래픽스", "컴퓨터네트워크", "컴퓨팅문제와알고리즘", "클라우드컴퓨팅", "탄소섬유", "태양전지재료및소자", "토목구조물진단및유지관리", "토지이용계획", "토질실험및지반구조물설계", "토질역학 1", "통계데이터분석", "통합전공탐색", "폐기물공학", "폐기물처리시스템설계", "표면공학", "표준조명공학", "프로젝트랩종합설계", "프로젝트랩종합설계 2", "플라즈마공학 2", "플라즈마응용공학", "플라즈마전자역학 2", "플랜트생산공학및실습", "하수도공학", "하폐수처리공학", "한국건축사", "항공기개념설계", "항공기추진기관", "항공드론융합설계", "항공드론재료역학", "항공역학실험", "항공역학입문", "항공우주공학프로젝트", "항공우주로봇입문", "핵공학개론 2", "헬스케어기기디자인", "현장실습", "화공안전공학", "화공양론", "화공열역학 2", "화약발파공학", "화학공학개론", "화학공학기초실험 2", "화학공학실험 2", "화학공학종합설계", "화학물질안전관리", "확률및통계", "확률통계학", "환경공학세미나 2", 
+    "환경공학실험 2", "환경반응공학", "환경빅데이터관리", "환경생태학", "회로망합성", "회로이론 2"
+    ];
 
-  <script src="app.js"></script>
+    const searchInput=document.getElementById("searchInput");
+    const searchBtn=document.getElementById("searchBtn");
+    const courseList=document.getElementById("courseList");
+    const appliedList=document.getElementById("appliedList");
+    const creditSpan=document.getElementById("credit");
+    const ttBody=document.getElementById("ttBody");
+
+    let credit=24;
+    let applied=[];
+    let startedAtNine=new Date();
+
+    // ====== 시간표 초기화 (1시간 단위) ======
+    const times=["09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00"];
+    function renderTimetable(){
+      ttBody.innerHTML="";
+      for(let t of times){
+        const tr=document.createElement("tr");
+        const td=document.createElement("td"); td.textContent=t; tr.appendChild(td);
+        for(let d=0; d<5; d++){ tr.appendChild(document.createElement("td")); }
+        ttBody.appendChild(tr);
+      }
+    }
+    renderTimetable();
+
+    function placeRandomInTimetable(name){
+      const cells=Array.from(ttBody.querySelectorAll("td")).filter(td=>td.cellIndex>0 && td.textContent==="");
+      if(cells.length===0)return;
+      const pick=cells[Math.floor(Math.random()*cells.length)];
+      pick.textContent=name;
+    }
+
+    // ====== 과목 리스트 출력 ======
+    function renderCourses(list){
+      courseList.innerHTML="";
+      const sorted=[...list].sort((a,b)=>a.localeCompare(b,"ko"));
+      sorted.forEach(name=>{
+        const row=document.createElement("div"); row.className="row";
+        const span=document.createElement("span"); span.textContent=name;
+        const btn=document.createElement("button"); btn.textContent="신청"; btn.className="btn";
+        btn.onclick=()=>applyCourse(name);
+        row.appendChild(span); row.appendChild(btn);
+        courseList.appendChild(row);
+      });
+    }
+    renderCourses(ALL_COURSES);
+
+    // ====== 검색 ======
+    searchBtn.addEventListener("click",()=>{
+      const q=searchInput.value.trim();
+      if(!q) renderCourses(ALL_COURSES);
+      else {
+        const filtered=ALL_COURSES.filter(c=>c.includes(q));
+        if(filtered.length>0) renderCourses(filtered);
+        else courseList.innerHTML="해당 과목 없음";
+      }
+    });
+
+    // ====== 신청 ======
+    function applyCourse(name){
+      if(credit<=0){ alert("더 이상 신청할 수 없습니다."); return; }
+      if(applied.includes(name)){ alert("이미 신청한 과목입니다."); return; }
+      applied.push(name);
+      applied.sort((a,b)=>a.localeCompare(b,"ko"));
+      renderApplied();
+      credit-=3; if(credit<0)credit=0;
+      creditSpan.textContent=credit;
+      placeRandomInTimetable(name);
+      alert("신청이 완료되었습니다!");
+      if(credit===0){
+        const elapsed=Math.floor((new Date()-startedAtNine)/1000);
+        alert("24학점 모두 신청 완료! 총 소요 시간: "+elapsed+"초");
+      }
+    }
+    function renderApplied(){
+      appliedList.innerHTML="";
+      applied.forEach(n=>{
+        const div=document.createElement("div"); div.textContent=`${n} (3학점)`; appliedList.appendChild(div);
+      });
+    }
+  </script>
 </body>
 </html>
